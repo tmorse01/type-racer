@@ -4,6 +4,8 @@ import JoinGame from "./JoinGame";
 import { GameState, Player } from "../../../shared/types/game-types";
 import PlayerProgressBar from "./PlayerProgressBar";
 import "../css/Game.scss";
+import TypeRacer from "./TypeRacer";
+import { SampleParagraph } from "../lib/sample-paragraphs";
 
 interface GameProps {
   gameState: GameState;
@@ -30,7 +32,7 @@ const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
   };
 
   return (
-    <div>
+    <div className="game-page">
       <h3>Game: {gameId}</h3>
       <div className="progress-bar-list">
         {gameState.players.map((player, index) => (
@@ -41,6 +43,7 @@ const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
         ))}
       </div>
       <JoinGame players={gameState.players} handleJoin={handleJoin} />
+      <TypeRacer paragraph={SampleParagraph} />
     </div>
   );
 };

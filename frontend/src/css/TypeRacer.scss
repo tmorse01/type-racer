@@ -1,0 +1,50 @@
+.type-racer {
+  margin: 2rem;
+  position: relative;
+  .error {
+    border-color: red;
+  }
+  .type-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background-color: green;
+    transition: width 0.3s ease;
+  }
+}
+
+.type-paragraph {
+  font-size: 1.5rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  .highlight {
+    background-color: yellow;
+  }
+  .highlight-error {
+    background-color: red;
+  }
+}
+
+.type-input {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  &:focus {
+    outline: none;
+    border-color: blue;
+  }
+  &.error {
+    border-color: red;
+  }
+  &.success {
+    border-color: green;
+  }
+}
