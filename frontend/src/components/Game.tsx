@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import JoinGame from "./JoinGame";
-import { GameState } from "../../../shared/types/game-types";
+import { GameState, Player } from "../../../shared/types/game-types";
+import PlayerProgressBar from "./PlayerProgressBar";
 interface GameProps {
   gameState: GameState;
   joinGame: (gameId: string, name: string) => void;
@@ -26,15 +27,36 @@ const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
     joinGame(gameId, name);
   };
 
+  const players: Player[] = [
+    {
+      name: "Player 1",
+      score: 50,
+      element: "Fire",
+    },
+    {
+      name: "Player 2",
+      score: 23,
+      element: "Water",
+    },
+    {
+      name: "Player 3",
+      score: 0,
+      element: "Earth",
+    },
+    {
+      name: "Player 4",
+      score: 0,
+      element: "Air",
+    },
+  ];
+
   return (
     <div>
       <h1>Game: {gameId}</h1>
       <div>
         <h2>Players:</h2>
-        {gameState.players.map((player, index) => (
-          <p key={index}>
-            {player.name}: {player.score}
-          </p>
+        {players.map((player, index) => (
+          <PlayerProgressBar key={index} player={player} />
         ))}
       </div>
       <JoinGame players={gameState.players} handleJoin={handleJoin} />

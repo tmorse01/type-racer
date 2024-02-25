@@ -59,7 +59,13 @@ wss.on("connection", (ws) => {
     switch (type) {
       case "join":
         if (games[data.gameId]) {
-          games[data.gameId].players.push({ name: data.name, score: 0 });
+          // pick an element that isn't already taken
+          const element = getNonTakenElement(gameState);
+          games[data.gameId].players.push({
+            name: data.name,
+            score: 0,
+            element: element,
+          });
         }
         break;
       case "score":
@@ -98,3 +104,10 @@ wss.on("connection", (ws) => {
 server.listen(3000, () => {
   console.log("Server started on port 3000");
 });
+
+function getNonTakenElement(gameState: GameState): string {
+  const elements = ["Fire", "Water", "Earth", "Air"];
+  const takenElements = gameState.players.map((p: Player) => p.element);
+  const availableElements = elements.filter((e) => !takenElements.includes(e));
+  return availableElements[0];
+}
