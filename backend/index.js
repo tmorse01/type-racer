@@ -6,6 +6,9 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+// This object will track the games
+let games = {};
+
 // This object will track the game state
 let gameState = {
   players: [],
@@ -17,8 +20,15 @@ wss.on("connection", (ws) => {
     const { type, data } = JSON.parse(message);
 
     switch (type) {
+      case "create":
+        const gameId = uuidv4();
+        games[gameId] = { players: [], gameInProgress: false };
+        ws.send(JSON.stringify({ type: "created", data: { gameId } }));
+        break;
       case "join":
-        gameState.players.push({ name: data.name, score: 0 });
+        if (games[data.gameId]) {
+          games[data.gameId].players.push({ name: data.name, score: 0 });
+        }
         break;
       case "score":
         const player = gameState.players.find((p) => p.name === data.name);
