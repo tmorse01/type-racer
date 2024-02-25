@@ -1,4 +1,3 @@
-// PlayerProgressBar.tsx
 import React from "react";
 import "../css/PlayerProgressBar.scss";
 import { Player } from "../../../shared/types/game-types";
@@ -12,7 +11,7 @@ const PlayerProgressBar: React.FC<PlayerProgressBarProps> = ({ player }) => {
   const progressStyle = {
     width: `${player.score}%`,
   };
-  console.log(progressStyle);
+  console.log({ player });
   return (
     <div className="progress-bar-container">
       <div className="progress-bar">

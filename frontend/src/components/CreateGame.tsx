@@ -8,7 +8,7 @@ const CreateGame: React.FC<CreateGameProps> = () => {
 
   function createGame() {
     fetch("http://localhost:3000/games", {
-      method: "POST",
+      method: "PUT",
     })
       .then((response) => response.json())
       .then((data) => {

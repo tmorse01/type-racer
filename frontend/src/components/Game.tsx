@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import JoinGame from "./JoinGame";
 import { GameState, Player } from "../../../shared/types/game-types";
 import PlayerProgressBar from "./PlayerProgressBar";
+import "../css/Game.scss";
+
 interface GameProps {
   gameState: GameState;
   joinGame: (gameId: string, name: string) => void;
@@ -27,35 +29,15 @@ const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
     joinGame(gameId, name);
   };
 
-  const players: Player[] = [
-    {
-      name: "Player 1",
-      score: 50,
-      element: "Fire",
-    },
-    {
-      name: "Player 2",
-      score: 23,
-      element: "Water",
-    },
-    {
-      name: "Player 3",
-      score: 68,
-      element: "Earth",
-    },
-    {
-      name: "Player 4",
-      score: 90,
-      element: "Air",
-    },
-  ];
-
   return (
     <div>
       <h3>Game: {gameId}</h3>
-      <div>
-        {players.map((player, index) => (
-          <PlayerProgressBar key={index} player={player} />
+      <div className="progress-bar-list">
+        {gameState.players.map((player, index) => (
+          <div>
+            <label>{player.name}</label>
+            <PlayerProgressBar key={index} player={player} />
+          </div>
         ))}
       </div>
       <JoinGame players={gameState.players} handleJoin={handleJoin} />

@@ -33,7 +33,7 @@ app.get("/games/:gameId", (req, res) => {
   }
 });
 
-app.post("/games", (req, res) => {
+app.put("/games", (req, res) => {
   const gameId = uuidv4();
   console.log("Creating game", gameId);
   games[gameId] = { players: [], gameInProgress: false };
@@ -66,6 +66,7 @@ wss.on("connection", (ws) => {
             score: 0,
             element: element,
           });
+          console.log("added player: ", data.name, games[data.gameId]);
         }
         break;
       case "score":

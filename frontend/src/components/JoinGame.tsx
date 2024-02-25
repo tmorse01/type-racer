@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Player } from "../../../shared/types/game-types";
+import "../css/JoinGame.scss";
 
 type JoinGameProps = {
   players: Player[];
@@ -17,16 +18,18 @@ const JoinGame: React.FC<JoinGameProps> = ({ players, handleJoin }) => {
   return (
     <>
       {players.length < 4 ? (
-        <div>
+        <div className="join-game">
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <button onClick={handleClick}>Join Game</button>
+          <button className="join-game__button" onClick={handleClick}>
+            Join Game
+          </button>
         </div>
       ) : (
-        <div>Player list is full</div>
+        <div className="join-game__full">Player list is full</div>
       )}
     </>
   );

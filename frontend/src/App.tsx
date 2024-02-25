@@ -19,7 +19,7 @@ function App() {
   }, []);
 
   const joinGame = (gameId: string, name: string) => {
-    ws.send(JSON.stringify({ type: "join", data: { name } }));
+    ws.send(JSON.stringify({ type: "join", data: { gameId, name } }));
   };
 
   const startGame = () => {
