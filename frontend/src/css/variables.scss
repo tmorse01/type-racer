@@ -1,19 +1,16 @@
-// variables.scss
+// Primary Colors based on the Elemental Type Racer Icon
+$primary-fire: #e25822; // A vibrant red-orange, representing fire
+$primary-water: #2171b5; // A deep blue, representing water
+$primary-air: #a8dadc; // A light blue, representing air
+$primary-earth: #6b8e23; // A muted green, representing earth
 
-$primary: #ffd700; // Yellow
-$secondary: #ffa500; // Orange
-$background: #282828; // Dark Gray
-$text: #f5f5f5; // Light Gray
-$border: #444; // Gray
+// Highlight Colors for interaction and emphasis
+$highlight-fire: lighten($primary-fire, 10%);
+$highlight-water: lighten($primary-water, 10%);
+$highlight-air: lighten($primary-air, 10%);
+$highlight-earth: lighten($primary-earth, 10%);
 
-$primary-highlight: lighten($primary, 20%); // Lighter shade of primary color
-$secondary-highlight: lighten(
-  $secondary,
-  20%
-); // Lighter shade of secondary color
-$background-highlight: darken(
-  $background,
-  20%
-); // Darker shade of background color
-$text-highlight: darken($text, 20%); // Darker shade of text color
-$border-highlight: lighten($border, 20%); // Lighter shade of border color
+// Dark Theme Background Colors
+$background-dark: #121212; // Very dark grey, almost black
+$background-medium: #1e1e1e; // Medium dark grey
+$background-light: #2c2c2c; // Lighter grey, for contrast against dark elements
