@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Player } from "../types/game-types";
+import { Player } from "../../../shared/types/game-types";
 
 type JoinGameProps = {
   players: Player[];

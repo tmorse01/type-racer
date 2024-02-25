@@ -1,27 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import JoinGame from "./JoinGame";
-
-interface Player {
-  name: string;
-  score: number;
-}
-
-interface GameState {
-  players: Player[];
-  gameInProgress: boolean;
-}
-
+import { GameState } from "../../../shared/types/game-types";
 interface GameProps {
   gameState: GameState;
   joinGame: (gameId: string, name: string) => void;
+  setGameState: (gameState: GameState) => void;
 }
 
-const Game: React.FC<GameProps> = ({ gameState, joinGame }) => {
+const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
   const { gameId } = useParams<{ gameId: string }>();
+
   if (!gameId) {
     return <div>No game ID provided</div>;
   }
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/games/${gameId}`)
+      .then((response) => response.json())
+      .then((data) => setGameState(data))
+      .catch((error) => console.error("Error:", error));
+  }, [gameId]);
 
   const handleJoin = (name: string) => {
     joinGame(gameId, name);

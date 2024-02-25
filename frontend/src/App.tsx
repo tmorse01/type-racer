@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { GameState } from "./types/game-types";
+import { GameState } from "../../shared/types/game-types";
 import Game from "./components/Game";
 import CreateGame from "./components/CreateGame";
 const ws = new WebSocket("ws://localhost:3000");
 
 function App() {
-  const [gameState, setGameState] = useState<GameState>({
+  const initialState: GameState = {
     players: [],
     gameInProgress: false,
-  });
+  };
+  const [gameState, setGameState] = useState<GameState>(initialState);
 
   useEffect(() => {
     ws.onmessage = (message) => {
@@ -18,10 +19,6 @@ function App() {
   }, []);
 
   const joinGame = (gameId: string, name: string) => {
-    setGameState((prevState) => ({
-      ...prevState,
-      players: [...prevState.players, { name, score: 0 }],
-    }));
     ws.send(JSON.stringify({ type: "join", data: { name } }));
   };
 
@@ -42,7 +39,13 @@ function App() {
       <Routes>
         <Route
           path="/game/:gameId"
-          element={<Game gameState={gameState} joinGame={joinGame} />}
+          element={
+            <Game
+              gameState={gameState}
+              joinGame={joinGame}
+              setGameState={setGameState}
+            />
+          }
         >
           {/* Here you would render your game component, passing in the necessary props */}
           {/* <Game gameState={gameState} updateScore={updateScore} endGame={endGame} /> */}

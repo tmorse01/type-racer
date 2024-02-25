@@ -1,37 +1,44 @@
-const express = require("express");
-const WebSocket = require("ws");
-const http = require("http");
-
+import express from "express";
+import WebSocket from "ws";
+import http from "http";
+import { v4 as uuidv4 } from "uuid";
+import { Player, GameState } from "../shared/types/game-types";
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 // This object will track the games
-let games = {};
+let games: {
+  [gameId: string]: GameState;
+} = {};
 
-// This object will track the game state
-let gameState = {
-  players: [],
-  gameInProgress: false,
-};
+app.get("/games/:gameId", (req, res) => {
+  const gameId = req.params.gameId;
+  if (games[gameId]) {
+    res.json(games[gameId]);
+  } else {
+    res.status(404).json({ message: "Game not found" });
+  }
+});
 
 wss.on("connection", (ws) => {
   ws.on("message", (message) => {
-    const { type, data } = JSON.parse(message);
-
+    const { type, data } = JSON.parse(message.toString());
+    const gameState = games[data.gameId];
     switch (type) {
       case "create":
         const gameId = uuidv4();
         games[gameId] = { players: [], gameInProgress: false };
         ws.send(JSON.stringify({ type: "created", data: { gameId } }));
-        break;
       case "join":
         if (games[data.gameId]) {
           games[data.gameId].players.push({ name: data.name, score: 0 });
         }
         break;
       case "score":
-        const player = gameState.players.find((p) => p.name === data.name);
+        const player = gameState.players.find(
+          (p: Player) => p.name === data.name
+        );
         if (player) {
           player.score = data.score;
         }
@@ -45,9 +52,12 @@ wss.on("connection", (ws) => {
     }
 
     // Broadcast the updated game state to all connected clients
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify(gameState));
+    wss.clients.forEach((client: WebSocket & { gameId?: string }) => {
+      // Check if the client is in the same game as the player
+      if (client.gameId === data.gameId) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(gameState));
+        }
       }
     });
   });
