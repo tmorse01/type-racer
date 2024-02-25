@@ -10,15 +10,19 @@ interface PlayerProgressBarProps {
 
 const PlayerProgressBar: React.FC<PlayerProgressBarProps> = ({ player }) => {
   const progressStyle = {
-    transform: `translateX(${player.score}%)`,
+    width: `${player.score}%`,
   };
-
+  console.log(progressStyle);
   return (
     <div className="progress-bar-container">
       <div className="progress-bar">
-        <div className="progress" style={progressStyle}></div>
+        <div
+          className={`progress progress-${player.element.toLowerCase()}`}
+          style={progressStyle}
+        >
+          <Elemental element={player.element} />
+        </div>
       </div>
-      <Elemental element={player.element} />
     </div>
   );
 };

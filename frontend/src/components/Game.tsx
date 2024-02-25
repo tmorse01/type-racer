@@ -40,21 +40,20 @@ const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
     },
     {
       name: "Player 3",
-      score: 0,
+      score: 68,
       element: "Earth",
     },
     {
       name: "Player 4",
-      score: 0,
+      score: 90,
       element: "Air",
     },
   ];
 
   return (
     <div>
-      <h1>Game: {gameId}</h1>
+      <h3>Game: {gameId}</h3>
       <div>
-        <h2>Players:</h2>
         {players.map((player, index) => (
           <PlayerProgressBar key={index} player={player} />
         ))}
