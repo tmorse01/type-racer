@@ -15,7 +15,7 @@ interface GameProps {
 
 const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
   const { gameId } = useParams<{ gameId: string }>();
-  console.log({ gameState });
+  // console.log({ gameState });
   if (!gameId) {
     return <div>No game ID provided</div>;
   }

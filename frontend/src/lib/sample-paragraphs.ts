@@ -1,2 +1,1 @@
-export const SampleParagraph =
-  "In the heart of the ancient forest, a gentle stream meandered through the thick underbrush, its waters whispering secrets of the ages. Sunlight filtered through the dense canopy above, casting a kaleidoscope of light and shadow on the forest floor. Birds chirped melodiously, creating a symphony of natural sounds that filled the air with a sense of peace and tranquility. Amidst this serene setting, a deer stepped cautiously to the water's edge, its graceful movements a dance with nature itself.";
+export const SampleParagraph = "In the heart.";

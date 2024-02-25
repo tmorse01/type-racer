@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "../css/TypeRacer.scss";
+import Paragraph from "./Paragraph";
 
 interface TypeRacerProps {
   paragraph: string;
@@ -7,35 +8,23 @@ interface TypeRacerProps {
 
 const TypeRacer: React.FC<TypeRacerProps> = ({ paragraph }) => {
   const [userInput, setUserInput] = useState("");
-  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    setError(userInput !== paragraph.slice(0, userInput.length));
-  }, [userInput, paragraph]);
+  const words = useMemo(() => paragraph.split(" "), [paragraph]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(event.target.value);
   };
 
-  const getHighlightedText = (text: string) => {
-    if (error) {
-      return <span style={{ color: "red" }}>{text}</span>;
-    } else {
-      return <span style={{ color: "green" }}>{text}</span>;
-    }
-  };
-
   return (
     <div className="type-racer">
       <div className="type-paragraph">
-        {getHighlightedText(paragraph.slice(0, userInput.length))}
-        {paragraph.slice(userInput.length)}
+        <Paragraph paragraph={paragraph} userInput={userInput} />
       </div>
       <input
         type="text"
         value={userInput}
         onChange={handleChange}
-        className={`type-input ${error ? "error" : ""}`}
+        className={`type-input`}
       />
     </div>
   );

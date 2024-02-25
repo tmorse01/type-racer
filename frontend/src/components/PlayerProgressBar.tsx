@@ -11,7 +11,7 @@ const PlayerProgressBar: React.FC<PlayerProgressBarProps> = ({ player }) => {
   const progressStyle = {
     width: `${player.score}%`,
   };
-  console.log({ player });
+
   return (
     <div className="progress-bar-container">
       <div className="progress-bar">
