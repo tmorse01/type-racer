@@ -17,7 +17,7 @@ To get started with development:
 1. Clone the repository:
 
 ```sh
-git clone https://github.com/yourusername/typeracer.git
+git clone https://github.com/tmorse01/typeracer.git
 cd typeracer
 ```
 
