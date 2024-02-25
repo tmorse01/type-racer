@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GameState } from "../../shared/types/game-types";
 import Game from "./components/Game";
@@ -11,9 +11,9 @@ function App() {
     gameInProgress: false,
   };
   const [gameState, setGameState] = useState<GameState>(initialState);
-
   useEffect(() => {
     ws.onmessage = (message) => {
+      console.log("onmessage", message.data);
       setGameState(JSON.parse(message.data));
     };
   }, []);
@@ -38,7 +38,7 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/game/:gameId"
+          path="/games/:gameId"
           element={
             <Game
               gameState={gameState}
@@ -50,7 +50,7 @@ function App() {
           {/* Here you would render your game component, passing in the necessary props */}
           {/* <Game gameState={gameState} updateScore={updateScore} endGame={endGame} /> */}
         </Route>
-        <Route path="/" element={<CreateGame createGame={() => {}} />}>
+        <Route path="/" element={<CreateGame />}>
           {/* Here you would render your join game component, passing in the necessary props */}
           {/* <JoinGame joinGame={joinGame} startGame={startGame} /> */}
         </Route>
