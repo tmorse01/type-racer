@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "../css/CreateGame.scss";
 interface CreateGameProps {}
 
 const CreateGame: React.FC<CreateGameProps> = () => {
@@ -20,8 +20,10 @@ const CreateGame: React.FC<CreateGameProps> = () => {
   }
 
   return (
-    <div>
-      <button onClick={createGame}>Create New Game</button>
+    <div className="create-game">
+      <button className="create-game__button" onClick={createGame}>
+        Create New Game
+      </button>
     </div>
   );
 };

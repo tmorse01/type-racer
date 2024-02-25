@@ -35,27 +35,29 @@ function App() {
   };
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/games/:gameId"
-          element={
-            <Game
-              gameState={gameState}
-              joinGame={joinGame}
-              setGameState={setGameState}
-            />
-          }
-        >
-          {/* Here you would render your game component, passing in the necessary props */}
-          {/* <Game gameState={gameState} updateScore={updateScore} endGame={endGame} /> */}
-        </Route>
-        <Route path="/" element={<CreateGame />}>
-          {/* Here you would render your join game component, passing in the necessary props */}
-          {/* <JoinGame joinGame={joinGame} startGame={startGame} /> */}
-        </Route>
-      </Routes>
-    </Router>
+    <div style={{ width: "100vw" }}>
+      <Router>
+        <Routes>
+          <Route
+            path="/games/:gameId"
+            element={
+              <Game
+                gameState={gameState}
+                joinGame={joinGame}
+                setGameState={setGameState}
+              />
+            }
+          >
+            {/* Here you would render your game component, passing in the necessary props */}
+            {/* <Game gameState={gameState} updateScore={updateScore} endGame={endGame} /> */}
+          </Route>
+          <Route path="/" element={<CreateGame />}>
+            {/* Here you would render your join game component, passing in the necessary props */}
+            {/* <JoinGame joinGame={joinGame} startGame={startGame} /> */}
+          </Route>
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

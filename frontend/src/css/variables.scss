@@ -1,0 +1,19 @@
+// variables.scss
+
+$primary: #ffd700; // Yellow
+$secondary: #ffa500; // Orange
+$background: #282828; // Dark Gray
+$text: #f5f5f5; // Light Gray
+$border: #444; // Gray
+
+$primary-highlight: lighten($primary, 20%); // Lighter shade of primary color
+$secondary-highlight: lighten(
+  $secondary,
+  20%
+); // Lighter shade of secondary color
+$background-highlight: darken(
+  $background,
+  20%
+); // Darker shade of background color
+$text-highlight: darken($text, 20%); // Darker shade of text color
+$border-highlight: lighten($border, 20%); // Lighter shade of border color
