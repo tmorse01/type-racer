@@ -19,9 +19,11 @@ To get started with development:
 ```sh
 git clone https://github.com/yourusername/typeracer.git
 cd typeracer
+```
 
 2. Install Dependencies
 
+```sh
 # In the backend directory
 cd backend
 npm install
@@ -33,14 +35,17 @@ npm start
 
 # In a new terminal, in the frontend directory
 npm run dev
+```
 
 3. Start development servers
 
+```sh
 # In the backend directory
 npm start
 
 # In a new terminal, in the frontend directory
 npm run dev
+```
 
 The frontend will be available at http://localhost:5173, and the backend will be running at http://localhost:3000.
 
@@ -49,4 +54,3 @@ Contributions are welcome! Please feel free to open an issue or submit a pull re
 
 License
 This project is licensed under the MIT License.
-```
