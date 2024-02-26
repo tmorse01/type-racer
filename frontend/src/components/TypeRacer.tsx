@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../css/TypeRacer.scss";
 import Paragraph from "./Paragraph";
+import { SampleParagraph } from "../lib/sample-paragraphs";
 
 interface TypeRacerProps {
   paragraph: string;
@@ -8,15 +9,20 @@ interface TypeRacerProps {
 
 const TypeRacer: React.FC<TypeRacerProps> = () => {
   const [userInput, setUserInput] = useState("");
+  const paragraph = SampleParagraph;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(event.target.value);
+    // check if finished
+    if (event.target.value === paragraph) {
+      console.log("finished");
+    }
   };
 
   return (
     <div className="type-racer">
       <div className="type-paragraph">
-        <Paragraph userInput={userInput} />
+        <Paragraph paragraph={paragraph} userInput={userInput} />
       </div>
       <input
         type="text"

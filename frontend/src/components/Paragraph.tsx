@@ -2,12 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { SampleParagraph } from "../lib/sample-paragraphs";
 import "../css/Paragraph.scss";
 type ParagraphProps = {
+  paragraph: string;
   userInput: string;
 };
 
-export default function Paragraph({ userInput }: ParagraphProps) {
+export default function Paragraph({ paragraph, userInput }: ParagraphProps) {
   // TODO: generate a random paragraph
-  const paragraph = SampleParagraph;
   const [errorCharIndexes, setErrorCharIndexes] = useState(new Set<number>());
   const characters = useMemo(() => paragraph.split(""), [paragraph]);
   const currentUserInputIndex = userInput.length - 1;
@@ -34,28 +34,22 @@ export default function Paragraph({ userInput }: ParagraphProps) {
   }, [userInput, paragraph]);
 
   const getHighlightedCharacter = (char: string, index: number) => {
-    const isIndexError = errorCharIndexes.has(index);
     if (index > currentUserInputIndex) {
       return (
         <span key={index} className="text-light">
           {char}
         </span>
       );
-    } else if (!isIndexError) {
-      return (
-        <span key={index} className="success-char">
-          {char}
-        </span>
-      );
-    } else {
-      return (
-        <span key={index} className="error-char">
-          {char}
-        </span>
-      );
     }
+    const isIndexError = errorCharIndexes.has(index);
+    const className = isIndexError ? "error-char" : "success-char";
+    return (
+      <span key={index} className={className}>
+        {char}
+      </span>
+    );
   };
-  console.log("errorCharIndexes", errorCharIndexes);
+
   return (
     <p>
       {characters.map((char, i) => (

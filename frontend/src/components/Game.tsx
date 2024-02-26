@@ -6,15 +6,46 @@ import PlayerProgressBar from "./PlayerProgressBar";
 import "../css/Game.scss";
 import TypeRacer from "./TypeRacer";
 import { SampleParagraph } from "../lib/sample-paragraphs";
+const ws = new WebSocket("ws://localhost:3000");
 
-interface GameProps {
-  gameState: GameState;
-  joinGame: (gameId: string, name: string) => void;
-  setGameState: (gameState: GameState) => void;
-}
+interface GameProps {}
 
-const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
+const initialState: GameState = {
+  players: [],
+  gameInProgress: false,
+};
+
+const Game: React.FC<GameProps> = () => {
   const { gameId } = useParams<{ gameId: string }>();
+  const [playerName, setPlayerName] = useState<string>("");
+  const [gameState, setGameState] = useState<GameState>(initialState);
+
+  useEffect(() => {
+    ws.onmessage = (message) => {
+      console.log("onmessage", message.data);
+      setGameState(JSON.parse(message.data));
+    };
+  }, []);
+
+  const joinGame = (gameId: string, name: string) => {
+    ws.send(JSON.stringify({ type: "join", data: { gameId, name } }));
+  };
+
+  const startGame = () => {
+    ws.send(JSON.stringify({ type: "start" }));
+  };
+
+  const endGame = () => {
+    ws.send(JSON.stringify({ type: "end" }));
+  };
+
+  const playerFinish = (playerName: string) => {
+    ws.send(JSON.stringify({ type: "finish", data: playerName }));
+  };
+
+  const updateScore = (name: string, score: number) => {
+    ws.send(JSON.stringify({ type: "score", data: { name, score } }));
+  };
   // console.log({ gameState });
   if (!gameId) {
     return <div>No game ID provided</div>;
@@ -42,7 +73,12 @@ const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
           </div>
         ))}
       </div>
-      <JoinGame players={gameState.players} handleJoin={handleJoin} />
+      <JoinGame
+        playerName={playerName}
+        setPlayerName={setPlayerName}
+        players={gameState.players}
+        handleJoin={handleJoin}
+      />
       <TypeRacer paragraph={SampleParagraph} />
     </div>
   );
