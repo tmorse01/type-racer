@@ -16,6 +16,7 @@ function App() {
   const [remainingTime, setRemainingTime] = useState<number>(30);
 
   useEffect(() => {
+    console.log("App component mounted");
     ws.onmessage = (message) => {
       console.log("onmessage", message.data);
       const data = JSON.parse(message.data);

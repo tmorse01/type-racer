@@ -2,6 +2,8 @@ import express from "express";
 import WebSocket from "ws";
 import http from "http";
 import { v4 as uuidv4 } from "uuid";
+import url from "url";
+
 import { Player, GameState } from "../shared/types/game-types";
 const app = express();
 const server = http.createServer(app);
@@ -31,7 +33,7 @@ app.use((req, res, next) => {
 
 app.get("/games/:gameId", (req, res) => {
   const gameId = req.params.gameId;
-  console.log("GET /games/:gameId", gameId, games);
+  // console.log("GET /games/:gameId", gameId, games);
   if (games[gameId]) {
     res.json(games[gameId]);
   } else {
@@ -39,9 +41,23 @@ app.get("/games/:gameId", (req, res) => {
   }
 });
 
-wss.on("connection", (ws: WebSocket) => {
+wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
   // Add the client to the map with an initial gameId of undefined
-  console.log("Client connected");
+  console.log("request.url", request.url);
+  const parsedUrl = request.url ? url.parse(request.url, true) : null;
+  const gameId = parsedUrl?.query?.gameId as string | undefined;
+
+  console.log("Client connected gameId", gameId);
+  if (gameId) {
+    if (clients[gameId] === undefined) {
+      // First user to connect to the game
+      clients[gameId] = [ws];
+    } else {
+      // Add additional users to the game
+      clients[gameId].push(ws);
+    }
+  }
+
   ws.on("message", (message) => {
     const { type, data } = JSON.parse(message.toString());
     console.log("message", { data, type });
@@ -51,12 +67,6 @@ wss.on("connection", (ws: WebSocket) => {
     // If the message includes a gameId, update the client's gameId
     if (data && data.gameId) {
       gameState = games[data.gameId];
-      // add the client connection to the clients object if it doesn't exist already
-      if (clients[data.gameId] === undefined) {
-        clients[data.gameId] = [ws];
-      } else if (clients[data.gameId] && !clients[data.gameId].includes(ws)) {
-        clients[data.gameId].push(ws);
-      }
     }
 
     switch (type) {
@@ -97,7 +107,6 @@ wss.on("connection", (ws: WebSocket) => {
     }
 
     // Broadcast the updated game state to all connected clients
-    console.log("games", games);
     console.log("Broadcasting game state");
     // Check if the client is in the same game as the player
     if (data !== undefined && data.gameId !== undefined) {
@@ -125,6 +134,13 @@ server.listen(3000, () => {
   console.log("Server started on port 3000");
 });
 
+server.on("upgrade", function upgrade(request, socket, head) {
+  wss.handleUpgrade(request, socket, head, function done(ws) {
+    wss.emit("connection", ws, request);
+  });
+});
+
+// helper functions
 function getNonTakenElement(gameState: GameState): string {
   const elements = ["Fire", "Water", "Earth", "Air"];
   const takenElements = gameState.players.map((p: Player) => p.element);

@@ -1,3 +1,5 @@
+@import "variables";
+
 .type-racer {
   margin: 2rem;
   position: relative;
@@ -39,12 +41,12 @@
   width: 100%;
   &:focus {
     outline: none;
-    border-color: blue;
+    border-color: $primary-water;
   }
   &.error {
-    border-color: red;
+    border-color: $error;
   }
   &.success {
-    border-color: green;
+    border-color: $success;
   }
 }
