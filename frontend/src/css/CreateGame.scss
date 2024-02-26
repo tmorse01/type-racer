@@ -8,7 +8,8 @@
   .create-game__button {
     padding: 20px 40px;
     font-size: 1.5em;
-    color: #000;
+    font-weight: 700;
+    color: $text-dark;
     background-color: $primary-fire;
     border: none;
     border-radius: 5px;

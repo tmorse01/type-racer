@@ -16,12 +16,15 @@
   }
 
   h1 {
-    color: $text-color;
+    color: $primary-fire;
   }
 
-  h2,
+  h2 {
+    color: $primary-earth;
+  }
+
   h3 {
-    color: $primary-fire;
+    color: $primary-water;
   }
 
   p {
@@ -37,13 +40,6 @@
   .multiplayer,
   .challenges {
     background-color: $background-dark;
-    border-radius: 8px;
-  }
-
-  .join {
-    background-color: $background-light;
-    color: $text-color;
-    padding: 20px;
     border-radius: 8px;
   }
 }

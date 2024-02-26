@@ -12,8 +12,6 @@ const LandingPage: React.FC<LandingPageProps> = ({ createGame }) => {
         <h1>Elemental Type Race: Ignite Your Typing Skills</h1>
       </header>
 
-      <CreateGame createGame={createGame} />
-
       <section className="features">
         <h2>Unleash the Power of Elements</h2>
         <p>
@@ -31,11 +29,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ createGame }) => {
       </section>
 
       <footer className="join">
-        <h3>Join the Elemental Adventure</h3>
-        <p>
-          Ready to type, race, and dominate? Sign up now and embark on your
-          elemental typing journey...
-        </p>
+        <h1>Join the Elemental Race</h1>
+        <CreateGame createGame={createGame} />
       </footer>
     </div>
   );
