@@ -1,11 +1,6 @@
 import CreateGame from "../components/CreateGame";
 import "../css/LandingPage.scss";
-
-type LandingPageProps = {
-  createGame: () => void;
-};
-
-const LandingPage: React.FC<LandingPageProps> = ({ createGame }) => {
+const LandingPage: React.FC = () => {
   return (
     <div className="landing-page">
       <header className="header">
@@ -30,7 +25,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ createGame }) => {
 
       <footer className="join">
         <h1>Join the Elemental Race</h1>
-        <CreateGame createGame={createGame} />
+        <CreateGame />
       </footer>
     </div>
   );

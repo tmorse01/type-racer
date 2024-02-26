@@ -41,6 +41,14 @@ app.get("/games/:gameId", (req, res) => {
   }
 });
 
+app.post("/create", (req, res) => {
+  const gameId = uuidv4();
+  games[gameId] = { ...defaultGameState };
+  clients[gameId] = [];
+  res.json({ result: gameId });
+  startCountdown(gameId);
+});
+
 wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
   // Add the client to the map with an initial gameId of undefined
   console.log("request.url", request.url);
@@ -70,14 +78,6 @@ wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
     }
 
     switch (type) {
-      case "create":
-        console.log("create: ", data);
-        const gameId = uuidv4();
-        games[gameId] = { ...defaultGameState };
-        clients[gameId] = [ws];
-        ws.send(JSON.stringify({ type: "create", result: gameId }));
-        startCountdown(gameId);
-        break;
       case "join":
         console.log("join: ", data);
         if (games[data.gameId]) {
@@ -134,11 +134,11 @@ server.listen(3000, () => {
   console.log("Server started on port 3000");
 });
 
-server.on("upgrade", function upgrade(request, socket, head) {
-  wss.handleUpgrade(request, socket, head, function done(ws) {
-    wss.emit("connection", ws, request);
-  });
-});
+// server.on("upgrade", function upgrade(request, socket, head) {
+//   wss.handleUpgrade(request, socket, head, function done(ws) {
+//     wss.emit("connection", ws, request);
+//   });
+// });
 
 // helper functions
 function getNonTakenElement(gameState: GameState): string {
@@ -153,6 +153,7 @@ function startCountdown(gameId: string) {
   const countdownTimer = setInterval(() => {
     // Send the remaining time until the game starts to all clients
     countdown--;
+    // console.log("countdown", countdown, gameId, clients);
     if (clients[gameId]) {
       clients[gameId].forEach((client) => {
         if (client.readyState === WebSocket.OPEN) {
