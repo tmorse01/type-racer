@@ -16,6 +16,11 @@ let clients: {
   [gameId: string]: WebSocket[];
 } = {};
 
+let defaultGameState: GameState = {
+  players: [],
+  inProgress: false,
+};
+
 // Enable CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -34,39 +39,35 @@ app.get("/games/:gameId", (req, res) => {
   }
 });
 
-app.put("/games", (req, res) => {
-  const gameId = uuidv4();
-  games[gameId] = {
-    players: [],
-    gameInProgress: false,
-  };
-  res.json({ gameId });
-});
-
 wss.on("connection", (ws: WebSocket) => {
   // Add the client to the map with an initial gameId of undefined
   console.log("Client connected");
   ws.on("message", (message) => {
     const { type, data } = JSON.parse(message.toString());
-    let gameState: GameState = {
-      players: [],
-      gameInProgress: false,
-    };
+    console.log("message", { data, type });
+
+    let gameState: GameState = { ...defaultGameState };
 
     // If the message includes a gameId, update the client's gameId
     if (data && data.gameId) {
       gameState = games[data.gameId];
+      // add the client connection to the clients object if it doesn't exist already
+      if (clients[data.gameId] === undefined) {
+        clients[data.gameId] = [ws];
+      } else if (clients[data.gameId] && !clients[data.gameId].includes(ws)) {
+        clients[data.gameId].push(ws);
+      }
     }
 
-    // add the client connection to the clients object if it doesn't exist already
-    if (clients[data.gameId] === undefined) {
-      clients[data.gameId] = [ws];
-    } else if (clients[data.gameId] && !clients[data.gameId].includes(ws)) {
-      clients[data.gameId].push(ws);
-    }
-
-    console.log("message", { data, type });
     switch (type) {
+      case "create":
+        console.log("create: ", data);
+        const gameId = uuidv4();
+        games[gameId] = { ...defaultGameState };
+        clients[gameId] = [ws];
+        ws.send(JSON.stringify({ type: "create", result: gameId }));
+        startCountdown(gameId);
+        break;
       case "join":
         console.log("join: ", data);
         if (games[data.gameId]) {
@@ -88,10 +89,10 @@ wss.on("connection", (ws: WebSocket) => {
         }
         break;
       case "start":
-        gameState.gameInProgress = true;
+        gameState.inProgress = true;
         break;
       case "end":
-        gameState.gameInProgress = false;
+        gameState.inProgress = false;
         break;
     }
 
@@ -99,10 +100,12 @@ wss.on("connection", (ws: WebSocket) => {
     console.log("games", games);
     console.log("Broadcasting game state");
     // Check if the client is in the same game as the player
-    if (clients[data.gameId] !== undefined) {
-      clients[data.gameId].forEach((client) => {
-        client.send(JSON.stringify(gameState));
-      });
+    if (data !== undefined && data.gameId !== undefined) {
+      if (clients[data.gameId] !== undefined) {
+        clients[data.gameId].forEach((client) => {
+          client.send(JSON.stringify({ type: "update", result: gameState }));
+        });
+      }
     }
 
     ws.on("close", () => {
@@ -127,4 +130,23 @@ function getNonTakenElement(gameState: GameState): string {
   const takenElements = gameState.players.map((p: Player) => p.element);
   const availableElements = elements.filter((e) => !takenElements.includes(e));
   return availableElements[0];
+}
+
+function startCountdown(gameId: string) {
+  let countdown = 5;
+  const countdownTimer = setInterval(() => {
+    // Send the remaining time until the game starts to all clients
+    countdown--;
+    if (clients[gameId]) {
+      clients[gameId].forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: "countdown", result: countdown }));
+        }
+      });
+    }
+    // clear the interval if the countdown is less than 0
+    if (countdown < 0) {
+      clearInterval(countdownTimer);
+    }
+  }, 1000); // 1000 milliseconds = 1 second
 }

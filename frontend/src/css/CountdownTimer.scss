@@ -1,0 +1,23 @@
+@import "variables";
+
+.countdown-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: $background-super-light;
+  border-radius: 8px;
+
+  &__title {
+    font-size: 2em;
+    font-weight: 600;
+    color: $text-dark;
+  }
+
+  &__time {
+    font-size: 2em;
+    font-weight: 700;
+    color: $text-dark;
+  }
+}
