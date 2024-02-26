@@ -36,7 +36,7 @@ const Game: React.FC<GameProps> = ({ gameState, joinGame, setGameState }) => {
       <h3>Game: {gameId}</h3>
       <div className="progress-bar-list">
         {gameState.players.map((player, index) => (
-          <div>
+          <div key={index}>
             <label>{player.name}</label>
             <PlayerProgressBar key={index} player={player} />
           </div>

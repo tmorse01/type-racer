@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState } from "react";
 import "../css/TypeRacer.scss";
 import Paragraph from "./Paragraph";
 
@@ -6,10 +6,8 @@ interface TypeRacerProps {
   paragraph: string;
 }
 
-const TypeRacer: React.FC<TypeRacerProps> = ({ paragraph }) => {
+const TypeRacer: React.FC<TypeRacerProps> = () => {
   const [userInput, setUserInput] = useState("");
-
-  const words = useMemo(() => paragraph.split(" "), [paragraph]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(event.target.value);
@@ -18,7 +16,7 @@ const TypeRacer: React.FC<TypeRacerProps> = ({ paragraph }) => {
   return (
     <div className="type-racer">
       <div className="type-paragraph">
-        <Paragraph paragraph={paragraph} userInput={userInput} />
+        <Paragraph userInput={userInput} />
       </div>
       <input
         type="text"
