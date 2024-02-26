@@ -1,0 +1,49 @@
+@import "variables";
+
+.landing-page {
+  text-align: center;
+  font-family: "Arial", sans-serif;
+  color: $text-color;
+
+  .header,
+  .features,
+  .arenas,
+  .multiplayer,
+  .challenges,
+  .join {
+    margin: 20px;
+    padding: 10px;
+  }
+
+  h1 {
+    color: $text-color;
+  }
+
+  h2,
+  h3 {
+    color: $primary-fire;
+  }
+
+  p {
+    color: $text-color;
+  }
+
+  .header {
+    background-color: $background-medium;
+  }
+
+  .features,
+  .arenas,
+  .multiplayer,
+  .challenges {
+    background-color: $background-dark;
+    border-radius: 8px;
+  }
+
+  .join {
+    background-color: $background-light;
+    color: $text-color;
+    padding: 20px;
+    border-radius: 8px;
+  }
+}

@@ -36,7 +36,7 @@ export default function Paragraph({ paragraph, userInput }: ParagraphProps) {
   const getHighlightedCharacter = (char: string, index: number) => {
     if (index > currentUserInputIndex) {
       return (
-        <span key={index} className="text-light">
+        <span key={index} className="text-color">
           {char}
         </span>
       );

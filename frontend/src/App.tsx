@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { GameState } from "../../shared/types/game-types";
 import Game from "./components/Game";
-import CreateGame from "./components/CreateGame";
+import LandingPage from "./pages/LandingPage";
 const ws = new WebSocket("ws://localhost:3000");
 
 const initialState: GameState = {
@@ -69,14 +69,11 @@ function App() {
               remainingTime={remainingTime}
             />
           }
-        >
-          {/* Here you would render your game component, passing in the necessary props */}
-          {/* <Game gameState={gameState} updateScore={updateScore} endGame={endGame} /> */}
-        </Route>
-        <Route path="/" element={<CreateGame createGame={createGame} />}>
-          {/* Here you would render your join game component, passing in the necessary props */}
-          {/* <JoinGame joinGame={joinGame} startGame={startGame} /> */}
-        </Route>
+        ></Route>
+        <Route
+          path="/"
+          element={<LandingPage createGame={createGame} />}
+        ></Route>
       </Routes>
     </div>
   );

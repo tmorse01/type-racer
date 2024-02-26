@@ -133,7 +133,7 @@ function getNonTakenElement(gameState: GameState): string {
 }
 
 function startCountdown(gameId: string) {
-  let countdown = 5;
+  let countdown = 30;
   const countdownTimer = setInterval(() => {
     // Send the remaining time until the game starts to all clients
     countdown--;
