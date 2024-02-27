@@ -10,7 +10,7 @@ import { SampleParagraph } from "../lib/sample-paragraphs";
 interface GameProps {
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
-  joinGame: (gameId: string, name: string) => void;
+  joinGame: (name: string) => void;
 }
 
 const Game: React.FC<GameProps> = ({ gameState, setGameState, joinGame }) => {
@@ -30,7 +30,7 @@ const Game: React.FC<GameProps> = ({ gameState, setGameState, joinGame }) => {
   }, [gameId]);
 
   const handleJoin = (name: string) => {
-    joinGame(gameId, name);
+    joinGame(name);
   };
 
   return (

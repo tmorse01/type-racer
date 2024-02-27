@@ -17,6 +17,13 @@ const GamePage: React.FC = () => {
     console.log("App component mounted");
     const ws = new WebSocket(`ws://localhost:3000?gameId=${gameId}`);
     setSocket(ws);
+
+    // get initial game state
+    fetch(`http://localhost:3000/games/${gameId}`)
+      .then((response) => response.json())
+      .then((data) => setGameState(data))
+      .catch((error) => console.error("Error:", error));
+
     ws.onmessage = (message) => {
       console.log("onmessage", message.data);
       const data = JSON.parse(message.data);

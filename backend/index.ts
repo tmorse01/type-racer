@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 app.get("/games/:gameId", (req, res) => {
   const gameId = req.params.gameId;
-  // console.log("GET /games/:gameId", gameId, games);
+  console.log("GET /games/:gameId", gameId, games);
   if (games[gameId]) {
     res.json(games[gameId]);
   } else {
@@ -52,26 +52,18 @@ wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
   ws.on("message", (message) => {
     const { type, data } = JSON.parse(message.toString());
     console.log("message", { data, type });
-
-    let gameState: GameState = { ...defaultGameState };
-
-    // If the message includes a gameId, update the client's gameId
-    if (data) {
-      gameState = games[gameId];
-    }
+    const gameState = games[gameId];
 
     switch (type) {
       case "join":
-        console.log("join: ", data);
-        if (games[gameId]) {
-          // pick an element that isn't already taken
-          const element = getNonTakenElement(gameState);
-          games[gameId].players.push({
-            name: data.name,
-            score: 0,
-            element: element,
-          });
-        }
+        console.log("join: ", data, gameId, games);
+        // pick an element that isn't already taken
+        const element = getNonTakenElement(gameState);
+        gameState.players = [
+          ...gameState.players,
+          { name: data.name, score: 0, element },
+        ];
+
         break;
       case "score":
         const player = gameState.players.find(
@@ -90,7 +82,7 @@ wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
     }
 
     // Broadcast the updated game state to all connected clients
-    console.log("Broadcasting game state");
+    console.log("Broadcasting game state", gameState);
 
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
