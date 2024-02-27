@@ -6,21 +6,14 @@ import PlayerProgressBar from "./PlayerProgressBar";
 import "../css/Game.scss";
 import TypeRacer from "./TypeRacer";
 import { SampleParagraph } from "../lib/sample-paragraphs";
-import CountdownTimer from "./CountdownTimer";
 
 interface GameProps {
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
   joinGame: (gameId: string, name: string) => void;
-  remainingTime: number;
 }
 
-const Game: React.FC<GameProps> = ({
-  gameState,
-  setGameState,
-  joinGame,
-  remainingTime,
-}) => {
+const Game: React.FC<GameProps> = ({ gameState, setGameState, joinGame }) => {
   const { gameId } = useParams<{ gameId: string }>();
   const [playerName, setPlayerName] = useState<string>("");
 
@@ -43,11 +36,6 @@ const Game: React.FC<GameProps> = ({
   return (
     <div className="game-page">
       <h3>Game: {gameId}</h3>
-      <CountdownTimer
-        time={remainingTime}
-        gameInProgress={gameState.inProgress}
-      />
-
       <div className="progress-bar-list">
         {gameState.players.map((player, index) => (
           <div key={index}>
