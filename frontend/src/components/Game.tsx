@@ -64,7 +64,7 @@ const Game: React.FC<GameProps> = ({
           players={gameState.players}
           handleJoin={handleJoin}
         />
-        <StartGame startGame={startGame} />
+        <StartGame disabled={gameState.inProgress} startGame={startGame} />
       </div>
       <TypeRacer paragraph={SampleParagraph} />
     </>

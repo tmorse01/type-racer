@@ -28,6 +28,9 @@ const GamePage: React.FC = () => {
       console.log("onmessage", message.data);
       const data = JSON.parse(message.data);
       if (data.type === "update") {
+        if (data.result.inProgress == true) {
+          console.log("Start game");
+        }
         setGameState(data.result);
       }
     };
