@@ -6,6 +6,7 @@ import { GameState } from "../../../shared/types/game-types";
 const initialState: GameState = {
   players: [],
   inProgress: false,
+  countdown: false,
 };
 
 const GamePage: React.FC = () => {
@@ -28,9 +29,6 @@ const GamePage: React.FC = () => {
       console.log("onmessage", message.data);
       const data = JSON.parse(message.data);
       if (data.type === "update") {
-        if (data.result.inProgress == true) {
-          console.log("Start game");
-        }
         setGameState(data.result);
       }
     };
@@ -42,6 +40,10 @@ const GamePage: React.FC = () => {
 
   const joinGame = (name: string) => {
     socket?.send(JSON.stringify({ type: "join", data: { name } }));
+  };
+
+  const handleCountdown = (value: Boolean) => {
+    socket?.send(JSON.stringify({ type: "countdown", data: { value } }));
   };
 
   const startGame = () => {
@@ -69,6 +71,7 @@ const GamePage: React.FC = () => {
         setGameState={setGameState}
         joinGame={joinGame}
         startGame={startGame}
+        handleCountdown={handleCountdown}
       />
     </div>
   );

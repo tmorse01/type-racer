@@ -1,13 +1,13 @@
 type StartGameProps = {
   disabled: boolean;
-  startGame: () => void;
+  handleCountdown: (value: Boolean) => void;
 };
 
-const StartGame: React.FC<StartGameProps> = ({ disabled, startGame }) => {
+const StartGame: React.FC<StartGameProps> = ({ disabled, handleCountdown }) => {
   return (
     <button
       className={`start-game__button ${disabled ? "disabled" : ""}`}
-      onClick={startGame}
+      onClick={() => handleCountdown(true)}
       disabled={disabled}
     >
       Start Game

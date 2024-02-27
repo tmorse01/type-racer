@@ -3,9 +3,15 @@ import "../css/CountdownTimer.scss";
 
 type CountdownTimerProps = {
   running: boolean;
+  startGame: () => void;
+  handleCountdown: (value: Boolean) => void;
 };
 
-const CountdownTimer: React.FC<CountdownTimerProps> = ({ running }) => {
+const CountdownTimer: React.FC<CountdownTimerProps> = ({
+  running,
+  startGame,
+  handleCountdown,
+}) => {
   const [time, setTime] = React.useState(5);
   useEffect(() => {
     let interval: number | undefined;
@@ -13,6 +19,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ running }) => {
       interval = setInterval(() => {
         setTime((prevTime) => {
           if (prevTime === 0) {
+            // start game here
+            startGame();
+            handleCountdown(false);
             clearInterval(interval);
             return 0;
           }

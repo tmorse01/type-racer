@@ -17,6 +17,7 @@ let games: {
 let defaultGameState: GameState = {
   players: [],
   inProgress: false,
+  countdown: false,
 };
 
 // Enable CORS
@@ -73,7 +74,12 @@ wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
           player.score = data.score;
         }
         break;
+      case "countdown":
+        console.log("countdown", data.value);
+        gameState.countdown = data.value;
+        break;
       case "start":
+        console.log("Start game");
         gameState.inProgress = true;
         break;
       case "end":

@@ -21,6 +21,7 @@ interface GameProps {
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
   joinGame: (name: string) => void;
   startGame: () => void;
+  handleCountdown: (value: Boolean) => void;
 }
 
 const Game: React.FC<GameProps> = ({
@@ -28,6 +29,7 @@ const Game: React.FC<GameProps> = ({
   setGameState,
   joinGame,
   startGame,
+  handleCountdown,
 }) => {
   const { gameId } = useParams<{ gameId: string }>();
   const [playerName, setPlayerName] = useState<string>("");
@@ -65,8 +67,15 @@ const Game: React.FC<GameProps> = ({
           players={gameState.players}
           handleJoin={handleJoin}
         />
-        <StartGame disabled={gameState.inProgress} startGame={startGame} />
-        <CountdownTimer running={gameState.inProgress} />
+        <StartGame
+          disabled={gameState.countdown || gameState.inProgress}
+          handleCountdown={handleCountdown}
+        />
+        <CountdownTimer
+          running={gameState.countdown}
+          startGame={startGame}
+          handleCountdown={handleCountdown}
+        />
       </div>
       <TypeRacer paragraph={SampleParagraph} />
     </>
