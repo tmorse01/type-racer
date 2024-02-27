@@ -14,6 +14,7 @@ import StartGame from "./StartGame";
 import "../css/Game.scss";
 
 import { SampleParagraph } from "../lib/sample-paragraphs";
+import CountdownTimer from "./CountdownTimer";
 
 interface GameProps {
   gameState: GameState;
@@ -65,6 +66,7 @@ const Game: React.FC<GameProps> = ({
           handleJoin={handleJoin}
         />
         <StartGame disabled={gameState.inProgress} startGame={startGame} />
+        <CountdownTimer running={gameState.inProgress} />
       </div>
       <TypeRacer paragraph={SampleParagraph} />
     </>
