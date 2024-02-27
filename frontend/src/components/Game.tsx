@@ -1,19 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import JoinGame from "./JoinGame";
+
+// Types
 import { GameState } from "../../../shared/types/game-types";
+
+// Components
+import JoinGame from "./JoinGame";
 import PlayerProgressBar from "./PlayerProgressBar";
-import "../css/Game.scss";
 import TypeRacer from "./TypeRacer";
+import StartGame from "./StartGame";
+
+// Styles
+import "../css/Game.scss";
+
 import { SampleParagraph } from "../lib/sample-paragraphs";
 
 interface GameProps {
   gameState: GameState;
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
   joinGame: (name: string) => void;
+  startGame: () => void;
 }
 
-const Game: React.FC<GameProps> = ({ gameState, setGameState, joinGame }) => {
+const Game: React.FC<GameProps> = ({
+  gameState,
+  setGameState,
+  joinGame,
+  startGame,
+}) => {
   const { gameId } = useParams<{ gameId: string }>();
   const [playerName, setPlayerName] = useState<string>("");
 
@@ -34,8 +48,7 @@ const Game: React.FC<GameProps> = ({ gameState, setGameState, joinGame }) => {
   };
 
   return (
-    <div className="game-page">
-      <h3>Game: {gameId}</h3>
+    <>
       <div className="progress-bar-list">
         {gameState.players.map((player, index) => (
           <div key={index}>
@@ -44,14 +57,17 @@ const Game: React.FC<GameProps> = ({ gameState, setGameState, joinGame }) => {
           </div>
         ))}
       </div>
-      <JoinGame
-        playerName={playerName}
-        setPlayerName={setPlayerName}
-        players={gameState.players}
-        handleJoin={handleJoin}
-      />
+      <div className="game-controls">
+        <JoinGame
+          playerName={playerName}
+          setPlayerName={setPlayerName}
+          players={gameState.players}
+          handleJoin={handleJoin}
+        />
+        <StartGame startGame={startGame} />
+      </div>
       <TypeRacer paragraph={SampleParagraph} />
-    </div>
+    </>
   );
 };
 

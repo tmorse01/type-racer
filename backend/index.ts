@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 app.get("/games/:gameId", (req, res) => {
   const gameId = req.params.gameId;
-  console.log("GET /games/:gameId", gameId, games);
+  // console.log("GET /games/:gameId", gameId, games);
   if (games[gameId]) {
     res.json(games[gameId]);
   } else {
@@ -47,16 +47,16 @@ wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
   const parsedUrl = url.parse(request.url || "", true);
   const gameId = parsedUrl.query.gameId as string;
 
-  console.log(`Client Connected to Game ID: ${gameId}`);
+  // console.log(`Client Connected to Game ID: ${gameId}`);
 
   ws.on("message", (message) => {
     const { type, data } = JSON.parse(message.toString());
-    console.log("message", { data, type });
+    // console.log("message", { data, type });
     const gameState = games[gameId];
 
     switch (type) {
       case "join":
-        console.log("join: ", data, gameId, games);
+        // console.log("join: ", data, gameId, games);
         // pick an element that isn't already taken
         const element = getNonTakenElement(gameState);
         gameState.players = [

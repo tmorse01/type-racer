@@ -41,9 +41,9 @@ const GamePage: React.FC = () => {
     socket?.send(JSON.stringify({ type: "join", data: { name } }));
   };
 
-  //   const startGame = () => {
-  //     socket?.send(JSON.stringify({ type: "start" }));
-  //   };
+  const startGame = () => {
+    socket?.send(JSON.stringify({ type: "start" }));
+  };
 
   //   const endGame = () => {
   //     socket?.send(JSON.stringify({ type: "end" }));
@@ -58,11 +58,16 @@ const GamePage: React.FC = () => {
   //   };
 
   return (
-    <Game
-      gameState={gameState}
-      setGameState={setGameState}
-      joinGame={joinGame}
-    />
+    <div className="game-page">
+      <h1>Game Page</h1>
+      <p>Game ID: {gameId}</p>
+      <Game
+        gameState={gameState}
+        setGameState={setGameState}
+        joinGame={joinGame}
+        startGame={startGame}
+      />
+    </div>
   );
 };
 

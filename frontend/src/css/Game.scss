@@ -1,3 +1,4 @@
+@import "variables";
 .progress-bar-list {
   display: grid;
   gap: 12px;
@@ -11,4 +12,36 @@
   display: grid;
   gap: 12px;
   margin: 4rem;
+}
+
+.join-game__input {
+  width: 200px;
+  padding: 10px;
+}
+
+.join-game__button {
+  padding: 10px 20px;
+  background-color: $secondary;
+  color: $background-dark;
+  border: none;
+  cursor: pointer;
+}
+
+.join-game__full {
+  text-align: center;
+  color: $error;
+}
+
+.start-game__button {
+  padding: 10px 20px;
+  background-color: $primary;
+  color: $background-dark;
+  border: none;
+  cursor: pointer;
+}
+
+.game-controls {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }

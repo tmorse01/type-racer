@@ -1,6 +1,5 @@
 import React from "react";
 import { Player } from "../../../shared/types/game-types";
-import "../css/JoinGame.scss";
 
 type JoinGameProps = {
   playerName: string;
@@ -21,15 +20,17 @@ const JoinGame: React.FC<JoinGameProps> = ({
   };
 
   if (players.some((player: Player) => player.name === playerName)) {
-    return <div className="join-game__full">Joined Game</div>;
+    return null;
   }
 
   return (
     <>
       {players.length < 4 ? (
-        <div className="join-game">
+        <>
           <input
+            className="join-game__input"
             type="text"
+            placeholder="Enter your name"
             value={playerName}
             onChange={(e) => setPlayerName(e.target.value)}
             onKeyDown={(e) => {
@@ -41,7 +42,7 @@ const JoinGame: React.FC<JoinGameProps> = ({
           <button className="join-game__button" onClick={handleClick}>
             Join Game
           </button>
-        </div>
+        </>
       ) : (
         <div className="join-game__full">Player list is full</div>
       )}
