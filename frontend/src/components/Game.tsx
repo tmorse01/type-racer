@@ -47,7 +47,7 @@ const Game: React.FC<GameProps> = ({
     fetchGame();
   }, [gameId, setGameState]);
 
-  console.log("Game state", gameState);
+  // console.log("Game state", gameState);
   if (!gameId || !gameState) {
     return <div>No game found</div>;
   }
@@ -78,6 +78,7 @@ const Game: React.FC<GameProps> = ({
           handleCountdown={handleCountdown}
         />
         <CountdownTimer
+          inProgress={gameState.inProgress}
           running={gameState.countdown}
           startGame={startGame}
           handleCountdown={handleCountdown}

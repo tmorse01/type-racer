@@ -2,17 +2,20 @@ import React, { useEffect } from "react";
 import "../css/CountdownTimer.scss";
 
 type CountdownTimerProps = {
+  inProgress: boolean;
   running: boolean;
   startGame: () => void;
   handleCountdown: (value: boolean) => void;
 };
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({
+  inProgress,
   running,
   startGame,
   handleCountdown,
 }) => {
   const [time, setTime] = React.useState(5);
+
   useEffect(() => {
     let interval: number | undefined;
     if (running) {
@@ -31,9 +34,10 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
     }
     return () => clearInterval(interval);
   }, [handleCountdown, running, startGame]);
+
   return (
     <div className="countdown-timer">
-      {time === 0 ? (
+      {time === 0 || inProgress ? (
         <span className="countdown-timer__time">Game in progress!</span>
       ) : (
         <span className="countdown-timer__time">
