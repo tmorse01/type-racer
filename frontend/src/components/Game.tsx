@@ -35,14 +35,19 @@ const Game: React.FC<GameProps> = ({
   const [playerName, setPlayerName] = useState<string>("");
 
   useEffect(() => {
-    console.log("game init");
-    fetch(`http://localhost:3000/games/${gameId}`)
-      .then((response) => response.json())
-      .then((data) => setGameState(data))
-      .catch((error) => console.error("Error:", error));
-  }, [gameId]);
+    const fetchGame = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/games/${gameId}`);
+        const data = await response.json();
+        setGameState(data);
+      } catch (error) {
+        console.error("Error fetching game state:", error);
+      }
+    };
+    fetchGame();
+  }, [gameId, setGameState]);
 
-  // console.log({ gameState });
+  console.log("Game state", gameState);
   if (!gameId || !gameState) {
     return <div>No game found</div>;
   }

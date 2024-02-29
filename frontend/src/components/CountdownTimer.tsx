@@ -30,7 +30,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [running]);
+  }, [handleCountdown, running, startGame]);
   return (
     <div className="countdown-timer">
       {time === 0 ? (

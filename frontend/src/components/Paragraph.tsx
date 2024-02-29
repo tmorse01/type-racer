@@ -19,18 +19,22 @@ export default function Paragraph({ paragraph, userInput }: ParagraphProps) {
     }
     if (paragraph[currentUserInputIndex] !== userInput[currentUserInputIndex]) {
       // typed the wrong character
-      setErrorCharIndexes(errorCharIndexes.add(currentUserInputIndex));
+      setErrorCharIndexes((prevErrorCharIndexes) =>
+        prevErrorCharIndexes.add(currentUserInputIndex)
+      );
     }
 
-    // if the errorCharIndexes contains a index greater than the current user index, then remove it
-    const updatedErrorCharIndexes = new Set<number>(errorCharIndexes);
-    errorCharIndexes.forEach((index: number) => {
-      if (index > currentUserInputIndex) {
-        updatedErrorCharIndexes.delete(index);
-      }
+    // if the errorCharIndexes contains an index greater than the current user index, then remove it
+    setErrorCharIndexes((prevErrorCharIndexes) => {
+      const updatedErrorCharIndexes = new Set<number>(prevErrorCharIndexes);
+      prevErrorCharIndexes.forEach((index: number) => {
+        if (index > currentUserInputIndex) {
+          updatedErrorCharIndexes.delete(index);
+        }
+      });
+      return updatedErrorCharIndexes;
     });
-    setErrorCharIndexes(updatedErrorCharIndexes);
-  }, [userInput, paragraph]);
+  }, [userInput, paragraph, currentUserInputIndex]);
 
   const getHighlightedCharacter = (char: string, index: number) => {
     if (index > currentUserInputIndex) {
