@@ -3,6 +3,7 @@ export interface Player {
   score: number;
   element: Element;
   finished?: boolean;
+  time?: number;
 }
 
 export type Element = "Fire" | "Water" | "Earth" | "Air" | string;

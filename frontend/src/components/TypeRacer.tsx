@@ -31,7 +31,6 @@ const TypeRacer: React.FC<TypeRacerProps> = ({
 
     // check if finished
     if (input === paragraph) {
-      console.log("finished");
       handlePlayerFinish();
     }
   };

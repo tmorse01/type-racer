@@ -70,11 +70,12 @@ wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
     } else if (type === "countdown") {
       console.log("countdown", data.value);
       gameState.countdown = data.value;
-    } else if (type === "playerFinish") {
-      console.log("playerFinish", data);
+    } else if (type === "finish") {
+      console.log("finish", data);
       let player = gameState.players.find((p: Player) => p.name === data.name);
       if (player) {
         player.finished = true;
+        player.time = data.time;
       }
     } else if (type === "score") {
       console.log("score", data);
@@ -90,7 +91,7 @@ wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
     }
 
     // Broadcast the updated game state to all connected clients
-    console.log("Broadcasting game state", gameState);
+    // console.log("Broadcasting game state", gameState);
 
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {

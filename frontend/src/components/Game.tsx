@@ -22,7 +22,7 @@ interface GameProps {
   joinGame: (name: string) => void;
   startGame: () => void;
   handleCountdown: (value: boolean) => void;
-  playerFinish: (playerName: string) => void;
+  playerFinish: (playerName: string, time: number) => void;
   updateScore: (name: string, score: number) => void;
 }
 
@@ -37,7 +37,9 @@ const Game: React.FC<GameProps> = ({
 }) => {
   const { gameId } = useParams<{ gameId: string }>();
   const [playerName, setPlayerName] = useState<string>("");
+  const [timer, setTimer] = useState<number>(0);
   const paragraph = SimpleParagraph;
+  let interval: number | undefined;
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -62,11 +64,32 @@ const Game: React.FC<GameProps> = ({
   };
 
   const handlePlayerFinish = () => {
-    playerFinish(playerName);
+    console.log("Player finished", playerName, timer);
+    handleStopTimer();
+    playerFinish(playerName, timer);
   };
 
   const handlePlayerScore = (score: number) => {
     updateScore(playerName, score);
+  };
+
+  const handleStartGame = () => {
+    handleStartTimer();
+    startGame();
+  };
+
+  const handleStartTimer = () => {
+    setTimer(0);
+    interval = setInterval(() => {
+      setTimer((prevTime) => {
+        return prevTime + 1;
+      });
+    }, 1000);
+  };
+
+  const handleStopTimer = () => {
+    clearInterval(interval);
+    return 0;
   };
 
   return (
@@ -97,7 +120,7 @@ const Game: React.FC<GameProps> = ({
         <CountdownTimer
           inProgress={gameState.inProgress}
           running={gameState.countdown}
-          startGame={startGame}
+          handleStartGame={handleStartGame}
           handleCountdown={handleCountdown}
         />
       </div>
