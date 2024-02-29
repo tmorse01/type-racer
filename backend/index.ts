@@ -76,6 +76,12 @@ wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
       if (player) {
         player.finished = true;
       }
+    } else if (type === "score") {
+      console.log("score", data);
+      let player = gameState.players.find((p: Player) => p.name === data.name);
+      if (player) {
+        player.score = data.score;
+      }
     } else if (type === "start") {
       console.log("Start game");
       gameState.inProgress = true;

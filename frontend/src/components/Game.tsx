@@ -22,6 +22,7 @@ interface GameProps {
   startGame: () => void;
   handleCountdown: (value: boolean) => void;
   playerFinish: (playerName: string) => void;
+  updateScore: (name: string, score: number) => void;
 }
 
 const Game: React.FC<GameProps> = ({
@@ -31,6 +32,7 @@ const Game: React.FC<GameProps> = ({
   startGame,
   handleCountdown,
   playerFinish,
+  updateScore,
 }) => {
   const { gameId } = useParams<{ gameId: string }>();
   const [playerName, setPlayerName] = useState<string>("");
@@ -59,6 +61,10 @@ const Game: React.FC<GameProps> = ({
 
   const handlePlayerFinish = () => {
     playerFinish(playerName);
+  };
+
+  const handlePlayerScore = (score: number) => {
+    updateScore(playerName, score);
   };
 
   return (
@@ -92,6 +98,7 @@ const Game: React.FC<GameProps> = ({
       <TypeRacer
         inProgress={gameState.inProgress}
         handlePlayerFinish={handlePlayerFinish}
+        handlePlayerScore={handlePlayerScore}
       />
     </>
   );
