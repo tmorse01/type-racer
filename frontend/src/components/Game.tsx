@@ -97,7 +97,16 @@ const Game: React.FC<GameProps> = ({
       <div className="progress-bar-list">
         {gameState.players.map((player, index) => (
           <div key={index}>
-            <label>{player.name}</label>
+            <div className="player-title">
+              <span className="player-name">{player.name}</span>
+              {player.time && (
+                <span className="player-finish">
+                  {" "}
+                  finished in {player.time} seconds.
+                </span>
+              )}
+            </div>
+
             <PlayerProgressBar
               key={index}
               player={player}

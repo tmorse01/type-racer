@@ -52,3 +52,20 @@
   gap: 20px;
   align-items: center;
 }
+
+.player-name {
+  color: $text-color;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 0 0 0 0.5rem;
+}
+
+.player-finish {
+  color: $text-color;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.player-title {
+  margin-bottom: 0.5rem;
+}
