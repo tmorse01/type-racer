@@ -3,9 +3,14 @@ import "../css/Paragraph.scss";
 type ParagraphProps = {
   paragraph: string;
   userInput: string;
+  inProgress: boolean;
 };
 
-export default function Paragraph({ paragraph, userInput }: ParagraphProps) {
+export default function Paragraph({
+  paragraph,
+  userInput,
+  inProgress,
+}: ParagraphProps) {
   // TODO: generate a random paragraph
   const [errorCharIndexes, setErrorCharIndexes] = useState(new Set<number>());
   const characters = useMemo(() => paragraph.split(""), [paragraph]);
@@ -37,12 +42,26 @@ export default function Paragraph({ paragraph, userInput }: ParagraphProps) {
   }, [userInput, paragraph, currentUserInputIndex]);
 
   const getHighlightedCharacter = (char: string, index: number) => {
+    // check if the charcter is the next character the user is supposed to type
+
     if (index > currentUserInputIndex) {
-      return (
-        <span key={index} className="text-color">
-          {char}
-        </span>
-      );
+      const nextWordIndex = paragraph.indexOf(" ", currentUserInputIndex);
+      const isNextWord =
+        index >= currentUserInputIndex && index < nextWordIndex;
+
+      if (inProgress && isNextWord) {
+        return (
+          <span key={index} className="next-word">
+            {char}
+          </span>
+        );
+      } else {
+        return (
+          <span key={index} className="text-light">
+            {char}
+          </span>
+        );
+      }
     }
     const isIndexError = errorCharIndexes.has(index);
     const className = isIndexError ? "error-char" : "success-char";

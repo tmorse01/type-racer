@@ -55,36 +55,32 @@ wss.on("connection", (ws: WebSocket, request: http.IncomingMessage) => {
     // console.log("message", { data, type });
     const gameState = games[gameId];
 
-    switch (type) {
-      case "join":
-        // console.log("join: ", data, gameId, games);
-        // pick an element that isn't already taken
-        const element = getNonTakenElement(gameState);
-        gameState.players = [
-          ...gameState.players,
-          { name: data.name, score: 0, element },
-        ];
-
-        break;
-      case "score":
-        const player = gameState.players.find(
-          (p: Player) => p.name === data.name
-        );
-        if (player) {
-          player.score = data.score;
-        }
-        break;
-      case "countdown":
-        console.log("countdown", data.value);
-        gameState.countdown = data.value;
-        break;
-      case "start":
-        console.log("Start game");
-        gameState.inProgress = true;
-        break;
-      case "end":
-        gameState.inProgress = false;
-        break;
+    if (type === "join") {
+      // console.log("join: ", data, gameId, games);
+      const element = getNonTakenElement(gameState);
+      gameState.players = [
+        ...gameState.players,
+        { name: data.name, score: 0, element },
+      ];
+    } else if (type === "score") {
+      let player = gameState.players.find((p: Player) => p.name === data.name);
+      if (player) {
+        player.score = data.score;
+      }
+    } else if (type === "countdown") {
+      console.log("countdown", data.value);
+      gameState.countdown = data.value;
+    } else if (type === "playerFinish") {
+      console.log("playerFinish", data);
+      let player = gameState.players.find((p: Player) => p.name === data.name);
+      if (player) {
+        player.finished = true;
+      }
+    } else if (type === "start") {
+      console.log("Start game");
+      gameState.inProgress = true;
+    } else if (type === "end") {
+      gameState.inProgress = false;
     }
 
     // Broadcast the updated game state to all connected clients

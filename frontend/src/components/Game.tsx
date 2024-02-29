@@ -10,10 +10,9 @@ import PlayerProgressBar from "./PlayerProgressBar";
 import TypeRacer from "./TypeRacer";
 import StartGame from "./StartGame";
 
-// Styles
+// Style
 import "../css/Game.scss";
 
-import { SampleParagraph } from "../lib/sample-paragraphs";
 import CountdownTimer from "./CountdownTimer";
 
 interface GameProps {
@@ -22,6 +21,7 @@ interface GameProps {
   joinGame: (name: string) => void;
   startGame: () => void;
   handleCountdown: (value: boolean) => void;
+  playerFinish: (playerName: string) => void;
 }
 
 const Game: React.FC<GameProps> = ({
@@ -30,6 +30,7 @@ const Game: React.FC<GameProps> = ({
   joinGame,
   startGame,
   handleCountdown,
+  playerFinish,
 }) => {
   const { gameId } = useParams<{ gameId: string }>();
   const [playerName, setPlayerName] = useState<string>("");
@@ -54,6 +55,10 @@ const Game: React.FC<GameProps> = ({
 
   const handleJoin = (name: string) => {
     joinGame(name);
+  };
+
+  const handlePlayerFinish = () => {
+    playerFinish(playerName);
   };
 
   return (
@@ -84,7 +89,10 @@ const Game: React.FC<GameProps> = ({
           handleCountdown={handleCountdown}
         />
       </div>
-      <TypeRacer paragraph={SampleParagraph} />
+      <TypeRacer
+        inProgress={gameState.inProgress}
+        handlePlayerFinish={handlePlayerFinish}
+      />
     </>
   );
 };

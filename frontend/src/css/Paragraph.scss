@@ -1,7 +1,7 @@
 @import "variables";
 
 .error-char {
-  color: $error;
+  background-color: rgba($error, 0.8);
 }
 
 .success-char {
@@ -10,4 +10,8 @@
 
 .text-light {
   color: $text-color;
+}
+
+.next-word {
+  text-decoration: underline;
 }

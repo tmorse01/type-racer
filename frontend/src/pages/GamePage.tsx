@@ -54,9 +54,9 @@ const GamePage: React.FC = () => {
   //     socket?.send(JSON.stringify({ type: "end" }));
   //   };
 
-  //   const playerFinish = (playerName: string) => {
-  //     socket?.send(JSON.stringify({ type: "finish", data: playerName }));
-  //   };
+  const playerFinish = (playerName: string) => {
+    socket?.send(JSON.stringify({ type: "finish", data: playerName }));
+  };
 
   //   const updateScore = (name: string, score: number) => {
   //     socket?.send(JSON.stringify({ type: "score", data: { name, score } }));
@@ -72,6 +72,7 @@ const GamePage: React.FC = () => {
         joinGame={joinGame}
         startGame={startGame}
         handleCountdown={handleCountdown}
+        playerFinish={playerFinish}
       />
     </div>
   );

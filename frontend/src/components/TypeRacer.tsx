@@ -1,28 +1,40 @@
 import React, { useState } from "react";
 import "../css/TypeRacer.scss";
 import Paragraph from "./Paragraph";
-import { SampleParagraph } from "../lib/sample-paragraphs";
+import { SimpleParagraph } from "../lib/sample-paragraphs";
 
 interface TypeRacerProps {
-  paragraph: string;
+  inProgress: boolean;
+  handlePlayerFinish: () => void;
 }
 
-const TypeRacer: React.FC<TypeRacerProps> = () => {
+const TypeRacer: React.FC<TypeRacerProps> = ({
+  inProgress,
+  handlePlayerFinish,
+}) => {
   const [userInput, setUserInput] = useState("");
-  const paragraph = SampleParagraph;
+
+  const paragraph = SimpleParagraph;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserInput(event.target.value);
+    const input = event.target.value;
+    setUserInput(input);
+
     // check if finished
-    if (event.target.value === paragraph) {
+    if (input === paragraph) {
       console.log("finished");
+      handlePlayerFinish();
     }
   };
 
   return (
     <div className="type-racer">
       <div className="type-paragraph">
-        <Paragraph paragraph={paragraph} userInput={userInput} />
+        <Paragraph
+          paragraph={paragraph}
+          userInput={userInput}
+          inProgress={inProgress}
+        />
       </div>
       <input
         type="text"
