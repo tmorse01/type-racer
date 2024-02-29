@@ -14,6 +14,7 @@ import StartGame from "./StartGame";
 import "../css/Game.scss";
 
 import CountdownTimer from "./CountdownTimer";
+import { SimpleParagraph } from "../lib/sample-paragraphs";
 
 interface GameProps {
   gameState: GameState;
@@ -36,6 +37,7 @@ const Game: React.FC<GameProps> = ({
 }) => {
   const { gameId } = useParams<{ gameId: string }>();
   const [playerName, setPlayerName] = useState<string>("");
+  const paragraph = SimpleParagraph;
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -73,7 +75,11 @@ const Game: React.FC<GameProps> = ({
         {gameState.players.map((player, index) => (
           <div key={index}>
             <label>{player.name}</label>
-            <PlayerProgressBar key={index} player={player} />
+            <PlayerProgressBar
+              key={index}
+              player={player}
+              paragraph={paragraph}
+            />
           </div>
         ))}
       </div>
@@ -96,6 +102,7 @@ const Game: React.FC<GameProps> = ({
         />
       </div>
       <TypeRacer
+        paragraph={paragraph}
         inProgress={gameState.inProgress}
         handlePlayerFinish={handlePlayerFinish}
         handlePlayerScore={handlePlayerScore}

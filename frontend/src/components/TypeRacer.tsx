@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import "../css/TypeRacer.scss";
 import Paragraph from "./Paragraph";
-import { SimpleParagraph } from "../lib/sample-paragraphs";
 
 interface TypeRacerProps {
+  paragraph: string;
   inProgress: boolean;
   handlePlayerFinish: () => void;
   handlePlayerScore: (score: number) => void;
 }
 
 const TypeRacer: React.FC<TypeRacerProps> = ({
+  paragraph,
   inProgress,
   handlePlayerFinish,
   handlePlayerScore,
 }) => {
   const [userInput, setUserInput] = useState("");
-
-  const paragraph = SimpleParagraph;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
