@@ -21,7 +21,7 @@ interface GameProps {
   setGameState: React.Dispatch<React.SetStateAction<GameState>>;
   joinGame: (name: string) => void;
   startGame: () => void;
-  handleCountdown: (value: Boolean) => void;
+  handleCountdown: (value: boolean) => void;
 }
 
 const Game: React.FC<GameProps> = ({
@@ -34,17 +34,18 @@ const Game: React.FC<GameProps> = ({
   const { gameId } = useParams<{ gameId: string }>();
   const [playerName, setPlayerName] = useState<string>("");
 
-  // console.log({ gameState });
-  if (!gameId) {
-    return <div>No game ID provided</div>;
-  }
-
   useEffect(() => {
+    console.log("game init");
     fetch(`http://localhost:3000/games/${gameId}`)
       .then((response) => response.json())
       .then((data) => setGameState(data))
       .catch((error) => console.error("Error:", error));
   }, [gameId]);
+
+  // console.log({ gameState });
+  if (!gameId || !gameState) {
+    return <div>No game found</div>;
+  }
 
   const handleJoin = (name: string) => {
     joinGame(name);

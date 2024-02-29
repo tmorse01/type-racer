@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { SampleParagraph } from "../lib/sample-paragraphs";
 import "../css/Paragraph.scss";
 type ParagraphProps = {
   paragraph: string;

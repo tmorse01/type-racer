@@ -1,6 +1,6 @@
 type StartGameProps = {
   disabled: boolean;
-  handleCountdown: (value: Boolean) => void;
+  handleCountdown: (value: boolean) => void;
 };
 
 const StartGame: React.FC<StartGameProps> = ({ disabled, handleCountdown }) => {

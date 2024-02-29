@@ -4,7 +4,7 @@ import "../css/CountdownTimer.scss";
 type CountdownTimerProps = {
   running: boolean;
   startGame: () => void;
-  handleCountdown: (value: Boolean) => void;
+  handleCountdown: (value: boolean) => void;
 };
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({

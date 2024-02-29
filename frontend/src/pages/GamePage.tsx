@@ -15,7 +15,7 @@ const GamePage: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(initialState);
 
   useEffect(() => {
-    console.log("App component mounted");
+    // console.log("App component mounted");
     const ws = new WebSocket(`ws://localhost:3000?gameId=${gameId}`);
     setSocket(ws);
 
@@ -36,13 +36,13 @@ const GamePage: React.FC = () => {
       console.log("CLOSE WEB SOCKET CLIENT");
       ws.close();
     };
-  }, []);
+  }, [gameId]);
 
   const joinGame = (name: string) => {
     socket?.send(JSON.stringify({ type: "join", data: { name } }));
   };
 
-  const handleCountdown = (value: Boolean) => {
+  const handleCountdown = (value: boolean) => {
     socket?.send(JSON.stringify({ type: "countdown", data: { value } }));
   };
 
