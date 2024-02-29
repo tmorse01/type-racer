@@ -16,7 +16,14 @@
 
 .join-game__input {
   width: 200px;
-  padding: 10px;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  &:focus {
+    outline: none;
+    border-color: $primary-water;
+  }
 }
 
 .join-game__button {

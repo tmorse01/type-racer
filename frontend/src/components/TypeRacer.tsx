@@ -18,6 +18,7 @@ const TypeRacer: React.FC<TypeRacerProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const input = event.target.value;
+    if (!inProgress) return;
     setUserInput(input);
 
     // check if finished
@@ -41,6 +42,9 @@ const TypeRacer: React.FC<TypeRacerProps> = ({
         value={userInput}
         onChange={handleChange}
         className={`type-input`}
+        placeholder={
+          !inProgress ? "Wait for the game to start" : "Start typing..."
+        }
       />
     </div>
   );
